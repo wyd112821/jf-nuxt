@@ -1,0 +1,39 @@
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.multiline-ellipsis(@n) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: @n;
+  -webkit-box-orient: vertical;
+  white-space: normal !important;
+  word-wrap: break-word;
+}
+
+.m-header {
+  display: flex;
+  padding: 30px 0;
+
+  .logo {
+    flex: 0 0 292px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .top-icons {
+    flex: 1;
+    text-align: right;
+
+    .iconfont {
+      padding: 0 12px;
+      font-size: 38px;
+      color: #b1b1b1;
+    }
+  }
+}

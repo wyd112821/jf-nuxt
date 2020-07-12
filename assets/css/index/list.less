@@ -1,0 +1,48 @@
+@import '../public/header/index.less';
+
+.jftabs-content {
+  width: 100%;
+
+  .flsp-list {
+    padding: 20px 0;
+    overflow: hidden;
+
+    .flsp-item {
+      width: 330px;
+      height: 544px;
+      background: rgba(255, 255, 255, 1);
+      border-radius: 10px;
+      margin-bottom: 34px;
+      float: left;
+      box-sizing: border-box;
+      padding: 24px;
+
+      &:nth-child(2n) {
+        margin-left: 30px;
+      }
+
+      .img {
+        height: 320px;
+      }
+
+      .mc {
+        line-height: 40px;
+        font-size: 28px;
+        color: #222;
+        .multiline-ellipsis(2)
+      }
+
+      .dhjf {
+        margin: 20px 0 15px;
+        color: #FF4C4B;
+        font-size: 28px;
+      }
+
+      .nums {
+        font-size: 24px;
+        color: #999;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,290 @@
+.container{
+  padding: 0 30px;
+  .swipe-section {
+    width: 690px;
+    height: 360px;
+    overflow: hidden;
+    border-radius: 18px;
+
+    .van-swipe-item {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      img {
+        position: absolute;
+        left: 50%;
+        height: 100%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+      }
+    }
+
+    .van-swipe__indicators {
+      bottom: 30px;
+
+      .van-swipe__indicator {
+        width: 12px;
+        height: 12px;
+      }
+
+      .van-swipe__indicator--active {
+        width: 32px;
+        background-color: #fff;
+        border-radius: 18px;
+      }
+    }
+  }
+
+  .navs-wrapper {
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 20px 0;
+    padding: 30px 0;
+    overflow: hidden;
+
+    .van-grid-item__content {
+      padding: 0;
+
+      .van-grid-item__icon {
+        font-size: 92px;
+      }
+
+      .van-grid-item__text {
+        font-size: 24px;
+        color: #666;
+        margin-top: 20px
+      }
+    }
+  }
+
+  .notice-wrapper {
+    height: 88px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 0 24px;
+
+    .van-notice-bar__left-icon {
+      min-width: 195px;
+      font-size: 28px;
+
+      .van-icon__image {
+        width: auto;
+      }
+    }
+
+    .notice-swipe {
+      height: 60px;
+      line-height: 60px;
+      font-size: 26px;
+
+      a {
+        color: #222 !important;
+      }
+    }
+  }
+
+  .choiceness-commodity {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+
+    .panel {
+      flex: 1;
+
+      .title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        h2 {
+          margin: 0 18px 0 0;
+          font-size: 30px;
+          color: #222;
+        }
+
+        span.subhead {
+          padding: 5px 11px;
+          background: linear-gradient(270deg, rgba(234, 58, 45, 1) 0%, rgba(236, 104, 93, 1) 100%);
+          border-radius: 5px;
+          color: #fff;
+          font-size: 20px;
+          line-height: 1;
+        }
+      }
+
+      .commodity-list {
+        height: 180px;
+
+        a {
+          width: 100%;
+
+          .van-image {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+
+            .van-image__img {
+              position: absolute;
+              top: 50%;
+              height: auto;
+              -webkit-transform: translateY(-50%);
+              transform: translateY(-50%);
+            }
+          }
+        }
+      }
+    }
+
+    .commodity-panel {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 30px 24px;
+
+      .zxsj-panel {
+        span.subhead {
+          background: linear-gradient(270deg, rgba(27, 162, 255, 1) 0%, rgba(29, 181, 255, 1) 100%);
+          border-radius: 14px;
+        }
+      }
+    }
+
+    .dfsp-panel {
+      padding: 10px 24px;
+
+      .commodity-list {
+        height: 160px;
+
+        a {
+          .van-image {
+            height: 100px;
+            border: 1px solid #eee;
+            box-sizing: border-box;
+            border-radius: 10px;
+          }
+        }
+      }
+    }
+
+    .dhdt-panel {
+      padding: 30px 24px;
+      border-top: 1px solid #F5F5F5;
+      height: 30px;
+      background-color: #fff;
+
+      .van-notice-bar__left-icon {
+        min-width: 150px;
+        font-size: 28px;
+
+        .van-icon__image {
+          width: auto;
+        }
+      }
+
+      .dhdt-swipe {
+        height: 40px;
+        line-height: 40px;
+        font-size: 26px;
+
+        a {
+          color: #222 !important;
+        }
+      }
+    }
+  }
+
+  .jftabs-wrapper {
+    padding: 15px 0 60px;
+
+    .van-tabs__wrap {
+      height: 110px;
+
+      .van-tabs__nav {
+        background-color: transparent;
+        text-align: center;
+
+        .m-tit {
+          margin: 0 0 13px;
+          font-size: 28px;
+          color: #222;
+          -webkit-transition: all 0.3s ease-in-out;
+          transition: all 0.3s ease-in-out;
+        }
+
+        .m-desc {
+          margin: 0;
+          font-size: 22px;
+          color: #999;
+        }
+
+        .van-tab--active {
+          .m-tit {
+            font-size: 32px;
+            -webkit-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+          }
+
+          .m-desc {
+            color: #EA3B2E;
+          }
+        }
+
+        .van-tabs__line {
+          width: 40px !important;
+          height: 56px;
+          border-radius: 50%;
+          border: solid 6px #EA3B2E;
+          background-color: transparent;
+          border-right: solid 6px rgba(223, 223, 194, 0);
+          border-left: solid 6px rgba(223, 223, 194, 0);
+          border-top: solid 6px rgba(223, 223, 194, 0);
+          -webkit-transform: translate(-50%, -50%) rotate(180deg);
+          transform: translate(-50%, -50%) rotate(180deg);
+          -webkit-animation: mouthAnimation 3s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+          animation: mouthAnimation 3s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        }
+      }
+    }
+
+    .more-btn {
+      margin: 0;
+      text-align: center;
+      font-size: 30px;
+      color: #999;
+    }
+  }
+
+  .index-footer{
+    width: 750px;
+    box-sizing: border-box;
+    margin-left: -30px;
+    margin-bottom: 99px;
+    background-color: #fff;
+    padding: 0 30px;
+    text-align: center;
+    .footer-nav{
+      width: 100%;
+      display: flex;
+      border-bottom: 1px solid #eee;
+      a{
+        flex: 1;
+        padding: 36px 0;
+        font-size: 26px;
+        color: #666;
+      }
+    }
+    .footer-copyright{
+      margin: 0;
+      padding: 38px 40px;
+      font-size: 24px;
+      color: #aaa;
+      line-height: 38px;
+    }
+  }
+}
+  

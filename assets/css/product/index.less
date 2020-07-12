@@ -1,0 +1,164 @@
+.header-fixed {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+
+  .nav-bar-default {
+    height: 104px;
+
+    .van-nav-bar__arrow {
+      font-size: 38px;
+      color: #222;
+    }
+
+    .nav-bar-search {
+      width: 665px;
+
+      .van-search__content {
+        padding-left: 24px;
+        background-color: #F5F5F5;
+
+        .van-cell {
+          line-height: 62px;
+          font-size: 28px;
+
+          .van-field__left-icon {
+            margin-right: 17px;
+
+            .van-icon {
+              color: #ccc;
+              font-size: 38px;
+            }
+          }
+        }
+      }
+
+    }
+  }
+
+  .dropdown-menu {
+    padding: 0 10px;
+    background-color: #f5f5f5;
+
+    .van-dropdown-menu__bar {
+      height: 100px;
+      background-color: transparent;
+      box-shadow: none;
+
+      .van-dropdown-menu__item {
+        &:last-child {
+          flex: 0 0 150px;
+
+          .van-dropdown-menu__title {
+
+            &::after {
+              width: 20px;
+              height: 20px;
+              background: url(../../image/filtrate-icon.png) no-repeat;
+              background-size: contain;
+              border: none;
+              transform: none;
+              right: 20px;
+              margin-top: -8px;
+            }
+          }
+
+          .van-dropdown-menu__title--down {
+            &::after {
+              background: url(../../image/filtrate-cion-active.png) no-repeat;
+              background-size: contain;
+            }
+          }
+
+        }
+
+        .van-dropdown-menu__title {
+          line-height: 52px;
+          padding: 0 46px 0 26px;
+          font-size: 26px;
+          background-color: #fff;
+          border-radius: 26px;
+
+          &::after {
+            right: 22px;
+            margin-top: -8px;
+            border: 6px solid;
+            border-color: transparent transparent #dcdee0 #dcdee0;
+          }
+        }
+
+        .van-dropdown-menu__title--down {
+          color: #0091FF;
+
+          &::after {
+            margin-top: 0;
+          }
+        }
+
+        .filtrate {
+          &::after {
+            display: none;
+          }
+        }
+      }
+
+    }
+
+    .van-dropdown-item {
+      .van-cell {
+        background-color: #f5f5f5;
+        font-size: 24px;
+        line-height: 50px;
+      }
+    }
+
+    .van-popup {
+      background-color: #f5f5f5;
+
+      .filtrate-wrap {
+        padding: 0 30px;
+        margin: 0;
+
+        dt {
+          padding: 10px 0 20px;
+          font-size: 28px;
+          color: #222;
+          font-weight: bold;
+        }
+
+        dd {
+          display: inline-block;
+          margin: 0 24px 24px 0;
+          padding: 20px 33px;
+          background-color: #fff;
+          border-radius: 34px;
+          color: #666;
+          font-size: 24px;
+
+          &.active {
+            background-color: #0091FF;
+            color: #fff;
+          }
+        }
+      }
+
+      .btns-bottom {
+        display: flex;
+        margin-top: 10px;
+
+        .van-button {
+          flex: 1;
+          height: 104px;
+          font-size: 32px;
+        }
+      }
+    }
+
+  }
+}
+
+.list-wrapper {
+  padding: 210px 30px 120px;
+}

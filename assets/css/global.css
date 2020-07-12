@@ -1,0 +1,48 @@
+body {
+  background-color: #f5f5f5;
+}
+
+.van-toast {
+  font-size: 26px !important;
+  line-height: 42px !important;
+}
+
+.van-toast--text,
+.van-toast--html {
+  padding: 16px 22px !important;
+}
+
+
+.van-popup--round {
+  border-radius: 40px 40px 0 0 !important;
+}
+
+.van-picker__toolbar {
+  height: 90px !important;
+}
+
+.van-picker__cancel,
+.van-picker__confirm {
+  padding: 0 32px !important;
+  font-size: 28px !important;
+}
+
+.van-picker-column{
+  font-size: 28px !important;
+}
+
+.van-address-edit__buttons{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+  padding: 15px 30px !important;
+}
+
+.van-address-edit__buttons .van-button{
+  margin-bottom: 0 !important;
+  height: 98px;
+  font-size: 32px;
+}
