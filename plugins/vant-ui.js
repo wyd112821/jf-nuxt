@@ -31,7 +31,9 @@ import {
   Field,
   SubmitBar,
   AddressEdit,
-  AddressList
+  AddressList,
+  Checkbox,
+  CheckboxGroup
 } from 'vant'
 
 Vue.use(Toast);
@@ -66,3 +68,5 @@ Vue.use(Field);
 Vue.use(SubmitBar);
 Vue.use(AddressEdit);
 Vue.use(AddressList);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);

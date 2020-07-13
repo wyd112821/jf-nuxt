@@ -12,7 +12,7 @@
                 <i class="iconfont icontubiao-05"></i>
             </template>
         </van-tabbar-item>
-        <van-tabbar-item name="cart" to="/product">
+        <van-tabbar-item name="cart" to="/cart">
             <span>购物车</span>
             <template #icon="props">
                 <i class="iconfont icontubiao-07"></i>
