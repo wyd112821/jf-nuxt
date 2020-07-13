@@ -21,7 +21,9 @@
                     <div class="tags-content">
                         <ul>
                             <li v-for="(tag, idx) in item" :key="idx">
-                                <nuxt-link to="/product">{{ tag.mc }}</nuxt-link>
+                                <nuxt-link
+                                    :to="{ name: 'product', params: { flid: tag.flid, bq: tag.mc }}"
+                                >{{ tag.mc }}</nuxt-link>
                             </li>
                         </ul>
                     </div>
@@ -67,12 +69,31 @@ export default {
             this.height = h - navBarH;
         }
     },
-    async mounted() {
-        let {
-            status,
-            data: { code, data: items }
-        } = await this.$axios.get("http://192.168.1.182/main/flList");
-        if (status === 200 && code === 1) {
+    async asyncData(ctx) {
+        //商品分类接口
+        let { status, data } = await ctx.$axios.get(
+            "http://192.168.1.182/main/flList"
+        );
+        let result = null;
+        if (typeof data == "string") {
+            result = eval("(" + data + ")");
+        } else {
+            result = eval(data);
+        }
+        let { code, data: items } = result;
+        //商品标签接口
+        let { status: status2, data: data2 } = await ctx.$axios.get(
+            "http://192.168.1.182/main/bqList"
+        );
+        let result2 = null;
+        if (typeof data2 == "string") {
+            result2 = eval("(" + data2 + ")");
+        } else {
+            result2 = eval(data2);
+        }
+        let { code: code2, data: tags } = result2;
+
+        if (status === 200 && code === 1 && status2 === 200 && code2 === 1) {
             let all = { text: "全部", id: "0" };
             let classics = Object.values(items).map(item => {
                 return {
@@ -81,23 +102,21 @@ export default {
                 };
             });
             classics.splice(0, 0, all);
-            this.items = classics;
-        }
 
-        let {
-            status: status2,
-            data: { code: code2, data: tags }
-        } = await this.$axios.get("http://192.168.1.182/main/bqList");
-        if (status === 200 && code === 1) {
             let tagsValue = Object.values(tags);
             let tagsArray = [];
             for (const tag of tagsValue) {
                 let tagsObject = Object.values(tag);
                 tagsArray.push(tagsObject);
             }
-            this.tags = tagsArray;
-        }
 
+            return {
+                items: classics,
+                tags: tagsArray
+            };
+        }
+    },
+    async mounted() {
         this.treeSelectH();
 
         const flid = this.$route.query.flid;

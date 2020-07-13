@@ -163,13 +163,19 @@ export default {
     },
     async mounted() {},
     async asyncData(ctx) {
+        let { status, data } = await ctx.$axios.post("http://192.168.1.182/");
+
+        let result = null;
+        if (typeof data == "string") {
+            result = eval("(" + data + ")");
+        } else {
+            result = eval(data);
+        }
         let {
-            status,
-            data: {
-                code,
-                data: { news, rqsp, zxsp, dfsp, dhdt, fllist, flsp }
-            }
-        } = await ctx.$axios.post("http://192.168.1.182/");
+            code,
+            data: { news, rqsp, zxsp, dfsp, dhdt, fllist, flsp }
+        } = result;
+
         if (status === 200 && code === 1) {
             return {
                 notices: news,

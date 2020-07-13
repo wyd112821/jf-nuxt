@@ -13,17 +13,17 @@
             </van-nav-bar>
 
             <van-dropdown-menu class="dropdown-menu">
-                <van-dropdown-item v-model="value1" :options="option1" />
-                <van-dropdown-item v-model="value2" :options="option2" />
-                <van-dropdown-item v-model="value3" :options="option3" />
+                <van-dropdown-item v-model="value1" :options="option1" @change="changeDrop" />
+                <van-dropdown-item v-model="value2" :options="option2" @change="changeDrop" />
+                <van-dropdown-item v-model="value3" :options="option3" @change="changeDrop" />
                 <van-dropdown-item title="筛选" ref="item">
                     <dl class="filtrate-wrap">
                         <dt>积分区间</dt>
                         <dd
-                            v-for="(item, index) in jfqj"
+                            v-for="item in jfqj"
                             :key="item.id"
-                            :class="jfqjActive === index ? 'active': ''"
-                            @click="setJfqj(index)"
+                            :class="jfqjActive === item.id ? 'active': ''"
+                            @click="setJfqj(item.id)"
                         >{{ item.name }}</dd>
                     </dl>
 
@@ -45,7 +45,13 @@
         </div>
 
         <div class="list-wrapper">
-            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+            <van-list
+                v-model="loading"
+                :finished="finished"
+                finished-text="没有更多了"
+                @load="onLoad"
+                immediate-check="false"
+            >
                 <list :list="list"></list>
             </van-list>
         </div>
@@ -53,60 +59,32 @@
 </template>
 
 <script>
+import qs from "qs";
 import List from "@/components/index/list.vue";
 export default {
     data() {
         return {
             value: "",
-            value1: 0,
-            value2: "a",
-            value3: 0,
+            value1: "tjsj-",
+            value2: "dhrs-",
+            value3: "dhjf-",
             option1: [
-                { text: "时间排序", value: 0 },
-                { text: "时间升序", value: 1 },
-                { text: "时间降序", value: 2 }
+                { text: "时间排序", value: "tjsj-" },
+                { text: "时间升序", value: "tjsj-asc" },
+                { text: "时间降序", value: "tjsj-desc" }
             ],
             option2: [
-                { text: "热度排序", value: "a" },
-                { text: "热度升序", value: "b" },
-                { text: "热度降序", value: "c" }
+                { text: "热度排序", value: "dhrs-" },
+                { text: "热度升序", value: "dhrs-asc" },
+                { text: "热度降序", value: "dhrs-desc" }
             ],
             option3: [
-                { text: "积分排序", value: 0 },
-                { text: "积分升序", value: 1 },
-                { text: "积分降序", value: 2 }
+                { text: "积分排序", value: "dhjf-" },
+                { text: "积分升序", value: "dhjf-asc" },
+                { text: "积分降序", value: "dhjf-desc" }
             ],
-            jfqj: [
-                {
-                    id: "",
-                    name: "不限"
-                },
-                {
-                    id: 1,
-                    name: "0-1000"
-                },
-                {
-                    id: 2,
-                    name: "1001-2000"
-                },
-                {
-                    id: 3,
-                    name: "2001-5000"
-                },
-                {
-                    id: 4,
-                    name: "5001-10000"
-                },
-                {
-                    id: 5,
-                    name: "10001-20000"
-                },
-                {
-                    id: 6,
-                    name: "200001以上"
-                }
-            ],
-            jfqjActive: 0,
+            jfqj: [],
+            jfqjActive: "",
             dhfs: [
                 {
                     id: "",
@@ -124,7 +102,19 @@ export default {
             dhfsActive: 0,
             list: [],
             loading: false,
-            finished: false
+            finished: false,
+            goodsParams: {
+                page: 1,
+                pageSize: 12,
+                mc: "",
+                flid: "",
+                bq: "",
+                jf: "",
+                dhfs: "",
+                mymax: "",
+                order: "",
+                order_by: ""
+            }
         };
     },
     components: {
@@ -134,52 +124,85 @@ export default {
         onClickLeft() {
             window.history.go(-1);
         },
-        setJfqj: function(index) {
-            this.jfqjActive = index;
+        setJfqj: function(id) {
+            this.jfqjActive = id;
         },
         setdhfs: function(index) {
             this.dhfsActive = index;
         },
         onConfirm() {
             this.$refs.item.toggle();
+            this.goodsParams.jf = this.jfqjActive;
+            onLoad(this.goodsParams);
         },
         onReset() {
             this.$refs.item.toggle();
             this.jfqjActive = 0;
             this.dhfsActive = 0;
         },
-        onLoad() {
-            // let {
-            //     status,
-            //     data: {
-            //         code,
-            //         data: { fllist, flsp }
-            //     }
-            // } = await this.$axios.post("http://192.168.1.182/");
-            // if (status === 200 && code === 1) {
-            //     this.list = Object.values(fllist)
-            //         .slice(0, 1)
-            //         .map((item, index) => {
-            //             return {
-            //                 list: flsp[index + 1]
-            //             };
-            //         });
-            // }
+        changeDrop(value) {
+            let px = value.split("-");
+            this.goodsParams.order = px[0];
+            this.goodsParams.order_by = px[1];
+            onLoad(this.goodsParams);
+        },
+        async onLoad(params) {
+            let {
+                status,
+                data: {
+                    code,
+                    data: { count, data: list }
+                }
+            } = await this.$axios.post(
+                "http://192.168.1.182/main/p_goods_list",
+                params,
+                {
+                    headers: {
+                        "X-Requested-With": "xmlhttprequest"
+                    }
+                }
+            );
+
+            if (status === 200 && code === 1) {
+                this.list = this.list.concat(list);
+                // 加载状态结束
+                this.loading = false;
+                this.listPage.page++;
+                // 数据全部加载完成
+                if (this.list.length >= count) {
+                    this.finished = true;
+                }
+            }
         }
     },
-    async asyncData(ctx) {
-        let {
-            status,
-            data: {
-                code,
-                data: datas
-            }
-        } = await ctx.$axios.post("https://b1be0a37-aa66-4dd6-b23b-a05c9af3775a.mock.pstmn.io/order/p_order_list");
-        if (status === 200 && code === 1) {
-            return {
-                list: datas.data
-            }
+    async mounted() {
+        //积分区间接口
+        let { status, data } = await this.$axios.get(
+            "http://192.168.1.182/main/jfList"
+        );
+
+        let result = null;
+        if (typeof data == "string") {
+            result = eval("(" + data + ")");
+        } else {
+            result = eval(data);
         }
+        let { code, data: jfqj } = result;
+
+        if (status === 200 && code === 1) {
+            let jfqjValues = Object.values(jfqj);
+            let jfqjKeys = Object.keys(jfqj);
+            let jfqjArray = [{ id: "", name: "不限" }];
+            for (let i = 0; i < jfqjValues.length; i++) {
+                jfqjArray.push({ id: jfqjKeys[i], name: jfqjValues[i].nr });
+            }
+            this.jfqj = jfqjArray;
+        }
+
+        this.flid = this.$route.params.flid;
+        this.bq = this.$route.params.bq == "不限" ? "" : this.$route.params.bq;
+
+        onLoad(this.goodsParams);
     }
 };
 </script>
