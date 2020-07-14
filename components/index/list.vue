@@ -2,7 +2,7 @@
     <div class="jftabs-content">
         <div class="flsp-list">
             <nuxt-link
-                :to="item.id"
+                :to="{path:'/detail', query: {id: item.id}}"
                 tag="div"
                 class="flsp-item"
                 v-for="item in list"

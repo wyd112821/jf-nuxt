@@ -33,7 +33,9 @@ import {
   AddressEdit,
   AddressList,
   Checkbox,
-  CheckboxGroup
+  CheckboxGroup,
+  Empty,
+  Dialog
 } from 'vant'
 
 Vue.use(Toast);
@@ -70,3 +72,5 @@ Vue.use(AddressEdit);
 Vue.use(AddressList);
 Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
+Vue.use(Empty);
+Vue.use(Dialog);

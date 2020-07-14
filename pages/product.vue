@@ -4,10 +4,12 @@
             <van-nav-bar class="nav-bar-default" left-arrow @click-left="onClickLeft">
                 <template #right>
                     <van-search
-                        v-model="value"
+                        v-model="searchValue"
                         shape="round"
                         placeholder="搜索商品名称"
                         class="nav-bar-search"
+                        @search="onSearch"
+                        @clear="onClear"
                     />
                 </template>
             </van-nav-bar>
@@ -30,10 +32,10 @@
                     <dl class="filtrate-wrap">
                         <dt>兑换方式</dt>
                         <dd
-                            v-for="(item, index) in dhfs"
+                            v-for="item in dhfs"
                             :key="item.id"
-                            :class="dhfsActive === index ? 'active': ''"
-                            @click="setdhfs(index)"
+                            :class="dhfsActive === item.id ? 'active': ''"
+                            @click="setdhfs(item.id)"
                         >{{ item.name }}</dd>
                     </dl>
                     <div class="btns-bottom">
@@ -49,11 +51,14 @@
                 v-model="loading"
                 :finished="finished"
                 finished-text="没有更多了"
+                :immediate-check="immediate"
                 @load="onLoad"
-                immediate-check="false"
+                v-show="!isEmpty"
             >
                 <list :list="list"></list>
             </van-list>
+
+            <van-empty description="暂无数据" v-show="isEmpty" />
         </div>
     </div>
 </template>
@@ -64,7 +69,7 @@ import List from "@/components/index/list.vue";
 export default {
     data() {
         return {
-            value: "",
+            searchValue: "",
             value1: "tjsj-",
             value2: "dhrs-",
             value3: "dhjf-",
@@ -91,18 +96,20 @@ export default {
                     name: "不限"
                 },
                 {
-                    id: 1,
+                    id: "1",
                     name: "全积分"
                 },
                 {
-                    id: 2,
+                    id: "2",
                     name: "积分+金额"
                 }
             ],
-            dhfsActive: 0,
+            dhfsActive: "",
             list: [],
             loading: false,
             finished: false,
+            refreshing: false,
+            immediate: false,
             goodsParams: {
                 page: 1,
                 pageSize: 12,
@@ -112,9 +119,10 @@ export default {
                 jf: "",
                 dhfs: "",
                 mymax: "",
-                order: "",
-                order_by: ""
-            }
+                order: [],
+                order_by: []
+            },
+            isEmpty: false
         };
     },
     components: {
@@ -124,38 +132,100 @@ export default {
         onClickLeft() {
             window.history.go(-1);
         },
+        //搜索
+        onSearch(val) {
+            this.goodsParams.mc = val;
+            this.goodsParams.page = 1;
+            // 清空列表数据
+            this.refreshing = true;
+            // 重新加载数据
+            this.loading = true;
+            this.onLoad();
+        },
+        //清除搜索内容
+        onClear() {
+            this.goodsParams.mc = "";
+            this.goodsParams.page = 1;
+            // 清空列表数据
+            this.refreshing = true;
+            // 重新加载数据
+            this.loading = true;
+            this.onLoad();
+        },
         setJfqj: function(id) {
             this.jfqjActive = id;
         },
-        setdhfs: function(index) {
-            this.dhfsActive = index;
+        setdhfs: function(id) {
+            this.dhfsActive = id;
         },
+        //筛选确认
         onConfirm() {
             this.$refs.item.toggle();
             this.goodsParams.jf = this.jfqjActive;
-            onLoad(this.goodsParams);
+            this.goodsParams.dhfs = this.dhfsActive;
+            this.goodsParams.page = 1;
+            // 清空列表数据
+            this.refreshing = true;
+            // 重新加载数据
+            this.loading = true;
+            this.onLoad();
         },
+        //筛选重置
         onReset() {
             this.$refs.item.toggle();
-            this.jfqjActive = 0;
-            this.dhfsActive = 0;
+            this.jfqjActive = "";
+            this.dhfsActive = "";
+            this.value1 = "tjsj-";
+            this.value2 = "dhrs-";
+            this.value3 = "dhjf-";
+            this.goodsParams = {
+                page: 1,
+                pageSize: 12,
+                mc: "",
+                flid: "",
+                bq: "",
+                jf: "",
+                dhfs: "",
+                mymax: "",
+                order: [],
+                order_by: []
+            };
+            // 清空列表数据
+            this.refreshing = true;
+            // 重新加载数据
+            this.loading = true;
+            this.onLoad();
         },
+        //排序选择
         changeDrop(value) {
+            //多个排序规则组合
+            let order = this.goodsParams.order;
+            let order_by = this.goodsParams.order_by;
             let px = value.split("-");
-            this.goodsParams.order = px[0];
-            this.goodsParams.order_by = px[1];
-            onLoad(this.goodsParams);
-        },
-        async onLoad(params) {
-            let {
-                status,
-                data: {
-                    code,
-                    data: { count, data: list }
+            let idx = order.indexOf(px[0]);
+            if (idx < 0) {
+                order.push(px[0]);
+                order_by.push(px[1]);
+            } else {
+                if (px[1]) {
+                    order.splice(idx, 1, px[0]);
+                    order_by.splice(idx, 1, px[1]);
+                } else {
+                    order.splice(idx, 1);
+                    order_by.splice(idx, 1);
                 }
-            } = await this.$axios.post(
-                "http://192.168.1.182/main/p_goods_list",
-                params,
+            }
+            this.goodsParams.page = 1;
+            // 清空列表数据
+            this.refreshing = true;
+            // 重新加载数据
+            this.loading = true;
+            this.onLoad();
+        },
+        async onLoad() {
+            let { status, data } = await this.$axios.post(
+                process.env.baseUrl + "main/p_goods_list",
+                this.goodsParams,
                 {
                     headers: {
                         "X-Requested-With": "xmlhttprequest"
@@ -163,22 +233,34 @@ export default {
                 }
             );
 
-            if (status === 200 && code === 1) {
+            if (this.refreshing) {
+                window.scrollTo(0, 0);
+                this.list = [];
+                this.refreshing = false;
+            }
+
+            if (status === 200 && data.code === 1) {
+                let { count, data: list } = data.data;
+                if (list.length) {
+                    this.isEmpty = false;
+                }
                 this.list = this.list.concat(list);
                 // 加载状态结束
                 this.loading = false;
-                this.listPage.page++;
+                this.goodsParams.page++;
                 // 数据全部加载完成
                 if (this.list.length >= count) {
                     this.finished = true;
                 }
+            } else {
+                this.isEmpty = true;
             }
         }
     },
     async mounted() {
         //积分区间接口
         let { status, data } = await this.$axios.get(
-            "http://192.168.1.182/main/jfList"
+            process.env.baseUrl + "main/jfList"
         );
 
         let result = null;
@@ -199,10 +281,11 @@ export default {
             this.jfqj = jfqjArray;
         }
 
-        this.flid = this.$route.params.flid;
-        this.bq = this.$route.params.bq == "不限" ? "" : this.$route.params.bq;
+        this.goodsParams.flid = this.$route.params.flid;
+        this.goodsParams.bq =
+            this.$route.params.bq == "不限" ? "" : this.$route.params.bq;
 
-        onLoad(this.goodsParams);
+        this.onLoad();
     }
 };
 </script>

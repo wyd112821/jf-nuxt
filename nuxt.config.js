@@ -94,5 +94,9 @@ module.exports = {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+
+  env: {
+    baseUrl: process.env.BASE_URL
   }
 }

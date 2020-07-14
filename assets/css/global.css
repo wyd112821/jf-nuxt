@@ -27,11 +27,11 @@ body {
   font-size: 28px !important;
 }
 
-.van-picker-column{
+.van-picker-column {
   font-size: 28px !important;
 }
 
-.van-address-edit__buttons{
+.van-address-edit__buttons {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -41,8 +41,31 @@ body {
   padding: 15px 30px !important;
 }
 
-.van-address-edit__buttons .van-button{
+.van-address-edit__buttons .van-button {
   margin-bottom: 0 !important;
   height: 98px;
   font-size: 32px;
+}
+
+.van-empty__image {
+  width: 260px !important;
+  height: 260px !important;
+}
+
+.van-dialog {
+  width: 520px !important;
+}
+
+.van-dialog__message {
+  line-height: 40px !important;
+  font-size: 24px !important;
+  color: #666;
+}
+
+.van-dialog__footer--buttons .van-button--large {
+  height: 0.7rem;
+}
+
+.van-dialog__footer--buttons .van-button {
+  font-size: 28px;
 }
