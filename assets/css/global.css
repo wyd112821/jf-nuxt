@@ -54,6 +54,7 @@ body {
 
 .van-dialog {
   width: 520px !important;
+  font-size: 28px !important;
 }
 
 .van-dialog__message {
@@ -68,4 +69,7 @@ body {
 
 .van-dialog__footer--buttons .van-button {
   font-size: 28px;
+}
+.van-dialog__header--isolated{
+  padding: 34px 0;
 }

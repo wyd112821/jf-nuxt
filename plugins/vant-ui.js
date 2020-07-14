@@ -35,7 +35,8 @@ import {
   Checkbox,
   CheckboxGroup,
   Empty,
-  Dialog
+  Dialog,
+  Icon
 } from 'vant'
 
 Vue.use(Toast);
@@ -74,3 +75,4 @@ Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
 Vue.use(Empty);
 Vue.use(Dialog);
+Vue.use(Icon);

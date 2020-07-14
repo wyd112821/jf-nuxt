@@ -1,0 +1,55 @@
+.user-cell-group{
+    margin: 20px 30px 0;
+    border-radius: 20px;
+    background-color: #fff;
+    overflow: hidden;
+
+    .van-cell{
+        padding: 16px 28px;
+        font-size: 28px;
+        line-height: 74px;
+        color: #222;
+
+        &::after{
+            border-bottom: 2px solid #eee;
+            transform: scaleY(1);
+        }
+
+        .van-cell__right-icon{
+            line-height: 74px;
+            font-size: 30px;
+            color: #999;
+        }
+    }
+
+    .order-wrap{
+        display: flex;
+        padding: 40px 0;
+
+        .order-item{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .iconfont{
+                position: relative;
+                font-size: 50px;
+                color: #333;
+
+                .van-info{
+                    min-width: 36px;
+                    line-height: 36px;
+                    font-size: 22px;
+                }
+            }
+
+            span{
+                padding-top: 12px;
+                font-size: 26px;
+                color: #666;
+            }
+        }
+    }
+}

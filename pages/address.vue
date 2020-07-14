@@ -6,6 +6,7 @@
       :area-list="areaList"
       show-postal
       show-set-default
+      show-delete
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
       @save="onSave"
     />

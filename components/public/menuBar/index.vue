@@ -18,7 +18,7 @@
                 <i class="iconfont icontubiao-07"></i>
             </template>
         </van-tabbar-item>
-        <van-tabbar-item class="my" to="/my">
+        <van-tabbar-item name="user" to="/user">
             <span>我的</span>
             <template #icon="props">
                 <i class="iconfont icontubiao-08"></i>
