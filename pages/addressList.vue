@@ -1,57 +1,72 @@
 <template>
-  <div>
-    <nav-bar :title="title" ref="navBar"></nav-bar>
+    <div>
+        <nav-bar :title="title" ref="navBar"></nav-bar>
 
-    <van-address-list
-      v-model="chosenAddressId"
-      :list="list"
-      default-tag-text="默认"
-      @add="onAdd"
-      @edit="onEdit"
-      @select="onSelect"
-    />
-  </div>
+        <van-address-list
+            v-model="chosenAddressId"
+            :list="list"
+            default-tag-text="默认"
+            @add="onAdd"
+            @edit="onEdit"
+            @select="onSelect"
+        />
+    </div>
 </template>
 
 <script>
 import NavBar from "@/components/public/navBar/index";
 export default {
-  layout: "detail",
-  components: {
-    NavBar
-  },
-  data() {
-    return {
-      title: "我的地址",
-      chosenAddressId: "1",
-      list: [
-        {
-          id: "1",
-          name: "张三",
-          tel: "13000000000",
-          address: "浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室",
-          isDefault: true
+    layout: "detail",
+    components: {
+        NavBar
+    },
+    data() {
+        return {
+            title: "我的地址",
+            chosenAddressId: "",
+            list: []
+        };
+    },
+    methods: {
+        onAdd() {
+            this.$router.push({ name: "address" });
         },
-        {
-          id: "2",
-          name: "李四",
-          tel: "1310000000",
-          address: "浙江省杭州市拱墅区莫干山路 50 号"
+        onEdit(item) {
+            this.$router.push({ name: "address", query: { id: item.id } });
+        },
+        onSelect(item) {
+            this.$router.push({ name: "exchange", query: { id: item.id } });
         }
-      ]
-    };
-  },
-  methods: {
-    onAdd() {
-      this.$router.push({ name: "address" });
     },
-    onEdit(item) {
-      this.$router.push({ name: "address", query: { id: item.id } });
-    },
-    onSelect(item) {
-        this.$router.push({ name: "exchange", query: { id: item.id } });
+    async mounted() {
+        //地址列表接口
+        let {
+            status,
+            data: { code, data: addressList }
+        } = await this.$axios.get(
+            process.env.baseUrl + "user_jf/p_address_list",
+            {
+                headers: {
+                    "X-Requested-With": "xmlhttprequest"
+                }
+            }
+        );
+        this.list = addressList.map(item => {
+            return {
+                id: item.id,
+                name: item.zsxm,
+                tel: item.sj,
+                address: item.address,
+                isDefault: item.isdefault != "1" ? false : true
+            };
+        });
+
+        for (var i = 0; i < this.list.length; i++) {
+            if (this.list[i].isDefault) {
+                this.chosenAddressId = this.list[i].id;
+            }
+        }
     }
-  }
 };
 </script>
 

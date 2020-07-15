@@ -95,10 +95,36 @@ export default {
         onSubmit() {}
     },
     async mounted() {
-        console.log(this.$route.params);
+        let params = this.$route.params;
+        if (JSON.stringify(params) != "{}") {
+            this.$cookies.set("orderInfo", this.$route.params);
+        }
+        console.log(this.$cookies.get("orderInfo"));
+
         //下单信息接口
-        let { status, data } = await this.$axios.get(
-            process.env.baseUrl + "main/jfList"
+        // let { status, data } = await this.$axios.post(
+        //     process.env.baseUrl + "user_jf/order",
+        //     params,
+        //     {
+        //         headers: {
+        //             "X-Requested-With": "xmlhttprequest"
+        //         }
+        //     }
+        // );
+
+        //console.log(data);
+    },
+    async asyncData(ctx) {
+        let params = ctx.params;
+        //下单信息接口
+        let { status, data } = await ctx.$axios.post(
+            process.env.baseUrl + "user_jf/order",
+            params,
+            {
+                headers: {
+                    "X-Requested-With": "xmlhttprequest"
+                }
+            }
         );
     }
 };

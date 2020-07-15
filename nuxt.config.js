@@ -47,6 +47,9 @@ module.exports = {
   plugins: [{
     src: '@/plugins/vant-ui',
     ssr: true
+  }, {
+    src: '@/plugins/cookies',
+    mode: 'client'
   }],
   /*
    ** Nuxt.js dev-modules

@@ -159,9 +159,7 @@ export default {
                                 ids: this.id,
                                 num: this.xdsl,
                                 free: 1,
-                                sxmc: this.sxmc,
-                                mc: this.mc,
-                                xdsl: this.xdsl
+                                sxmc: this.sxmc
                             }
                         });
                     })
@@ -173,9 +171,7 @@ export default {
                         ids: this.id,
                         num: 1,
                         free: 0,
-                        sxmc: this.sxmc,
-                        mc: this.mc,
-                        xdsl: this.xdsl
+                        sxmc: this.sxmc
                     }
                 });
             }
@@ -193,7 +189,7 @@ export default {
             params: { id: ctx.query.id }
         });
 
-        console.log(goodsinfo);
+        //console.log(goodsinfo);
 
         return {
             id: goodsinfo.id,
